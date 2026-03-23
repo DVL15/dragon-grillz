@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Instagram, MapPin, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
+import ToothSelector from '@/components/ToothSelector'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -15,6 +16,13 @@ export default function ContactPage() {
     type: 'Haut',
     description: '',
   })
+  const [selectedTeeth, setSelectedTeeth] = useState<string[]>([])
+
+  const toggleTooth = (id: string) => {
+    setSelectedTeeth((prev) =>
+      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
+    )
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -30,12 +38,13 @@ export default function ContactPage() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, teeth: selectedTeeth }),
       })
 
       if (res.ok) {
         setStatus('success')
         setForm({ name: '', email: '', phone: '', type: 'Haut', description: '' })
+        setSelectedTeeth([])
       } else {
         setStatus('error')
       }
@@ -137,7 +146,9 @@ export default function ContactPage() {
               </button>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
+
+              {/* Nom + Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-white/30 text-[10px] uppercase tracking-[0.3em] block mb-2">
@@ -168,6 +179,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
+              {/* Téléphone + Type */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-white/30 text-[10px] uppercase tracking-[0.3em] block mb-2">
@@ -198,6 +210,17 @@ export default function ContactPage() {
                 </div>
               </div>
 
+              {/* Sélecteur de dents */}
+              <div>
+                <label className="text-white/30 text-[10px] uppercase tracking-[0.3em] block mb-4">
+                  Dents concernées
+                </label>
+                <div className="border border-white/5 p-5 bg-[#080808]">
+                  <ToothSelector selected={selectedTeeth} onToggle={toggleTooth} />
+                </div>
+              </div>
+
+              {/* Description */}
               <div>
                 <label className="text-white/30 text-[10px] uppercase tracking-[0.3em] block mb-2">
                   Description du projet *
@@ -223,7 +246,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full flex items-center justify-center gap-3 bg-[#C8A84B] text-black font-semibold py-4 hover:bg-[#E8C96B] transition-colors text-xs tracking-[0.2em] uppercase disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                className="w-full flex items-center justify-center gap-3 bg-[#C8A84B] text-black font-semibold py-4 hover:bg-[#E8C96B] transition-colors text-xs tracking-[0.2em] uppercase disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'loading' ? (
                   <>
@@ -238,7 +261,7 @@ export default function ContactPage() {
                 )}
               </button>
 
-              <p className="text-white/20 text-[10px] text-center pt-1">
+              <p className="text-white/20 text-[10px] text-center">
                 En soumettant ce formulaire, tu acceptes d'être contacté par Dragon Grillz.
               </p>
             </form>

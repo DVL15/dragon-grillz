@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, phone, type, description } = body
+    const { name, email, phone, type, description, teeth } = body
 
     if (!name || !email || !description) {
       return NextResponse.json({ error: 'Champs manquants' }, { status: 400 })
@@ -36,6 +36,15 @@ export async function POST(request: Request) {
             <tr style="border-bottom: 1px solid #222;">
               <td style="padding: 12px 0; color: #888;">Type de Grillz</td>
               <td style="padding: 12px 0; color: #fff;">${type}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #222;">
+              <td style="padding: 12px 0; color: #888; vertical-align: top;">Dents choisies</td>
+              <td style="padding: 12px 0; color: #fff; line-height: 1.8;">
+                ${Array.isArray(teeth) && teeth.length > 0
+                  ? teeth.map((t: string) => `<span style="display:inline-block; background:#1a1500; border:1px solid #C8A84B55; color:#C8A84B; font-size:11px; padding:2px 8px; margin:2px; border-radius:2px;">${t}</span>`).join('')
+                  : '<span style="color:#555">Non renseigné</span>'
+                }
+              </td>
             </tr>
             <tr>
               <td style="padding: 12px 0; color: #888; vertical-align: top;">Description</td>
