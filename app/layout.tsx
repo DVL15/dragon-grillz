@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   title: 'Dragon Grillz | Sur-mesure · Made in France',
   description:
     'Grillz sur-mesure fabriqués en France. Chaque pièce est unique, façonnée spécialement pour vous. Prix accessibles, qualité artisanale.',
+  icons: {
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

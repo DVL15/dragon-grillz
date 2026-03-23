@@ -9,31 +9,38 @@ interface ToothDef {
   y: number
   w: number
   h: number
+  fang?: boolean
 }
 
+// Tous les lower teeth ont le top à y=192
 const UPPER: ToothDef[] = [
-  { id: 'ul_premolar', label: 'Prémolaire G sup.',   x: 113, y: 100, w: 34, h: 40 },
-  { id: 'ul_canine',   label: 'Canine G sup.',        x: 153, y: 86,  w: 30, h: 54 },
-  { id: 'ul_lateral',  label: 'Latérale G sup.',      x: 189, y: 80,  w: 36, h: 60 },
-  { id: 'ul_central',  label: 'Centrale G sup.',      x: 231, y: 72,  w: 46, h: 68 },
-  { id: 'ur_central',  label: 'Centrale D sup.',      x: 283, y: 72,  w: 46, h: 68 },
-  { id: 'ur_lateral',  label: 'Latérale D sup.',      x: 335, y: 80,  w: 36, h: 60 },
-  { id: 'ur_canine',   label: 'Canine D sup.',        x: 377, y: 86,  w: 30, h: 54 },
-  { id: 'ur_premolar', label: 'Prémolaire D sup.',    x: 413, y: 100, w: 34, h: 40 },
+  { id: 'ul_premolar', label: 'Prémolaire G sup.',   x: 115, y: 137, w: 34, h: 46 },
+  { id: 'ul_canine',   label: 'Canine G sup.',        x: 154, y: 107, w: 32, h: 76, fang: true },
+  { id: 'ul_lateral',  label: 'Latérale G sup.',      x: 191, y: 119, w: 36, h: 64 },
+  { id: 'ul_central',  label: 'Centrale G sup.',      x: 232, y: 111, w: 46, h: 72 },
+  { id: 'ur_central',  label: 'Centrale D sup.',      x: 283, y: 111, w: 46, h: 72 },
+  { id: 'ur_lateral',  label: 'Latérale D sup.',      x: 334, y: 119, w: 36, h: 64 },
+  { id: 'ur_canine',   label: 'Canine D sup.',        x: 375, y: 107, w: 32, h: 76, fang: true },
+  { id: 'ur_premolar', label: 'Prémolaire D sup.',    x: 412, y: 137, w: 34, h: 46 },
 ]
 
 const LOWER: ToothDef[] = [
-  { id: 'll_premolar', label: 'Prémolaire G inf.',   x: 113, y: 165, w: 34, h: 40 },
-  { id: 'll_canine',   label: 'Canine G inf.',        x: 153, y: 165, w: 30, h: 54 },
-  { id: 'll_lateral',  label: 'Latérale G inf.',      x: 189, y: 165, w: 36, h: 60 },
-  { id: 'll_central',  label: 'Centrale G inf.',      x: 231, y: 165, w: 46, h: 68 },
-  { id: 'lr_central',  label: 'Centrale D inf.',      x: 283, y: 165, w: 46, h: 68 },
-  { id: 'lr_lateral',  label: 'Latérale D inf.',      x: 335, y: 165, w: 36, h: 60 },
-  { id: 'lr_canine',   label: 'Canine D inf.',        x: 377, y: 165, w: 30, h: 54 },
-  { id: 'lr_premolar', label: 'Prémolaire D inf.',    x: 413, y: 165, w: 34, h: 40 },
+  { id: 'll_premolar', label: 'Prémolaire G inf.',   x: 115, y: 192, w: 34, h: 45 },
+  { id: 'll_canine',   label: 'Canine G inf.',        x: 154, y: 192, w: 32, h: 58 },
+  { id: 'll_lateral',  label: 'Latérale G inf.',      x: 191, y: 192, w: 36, h: 55 },
+  { id: 'll_central',  label: 'Centrale G inf.',      x: 232, y: 192, w: 46, h: 62 },
+  { id: 'lr_central',  label: 'Centrale D inf.',      x: 283, y: 192, w: 46, h: 62 },
+  { id: 'lr_lateral',  label: 'Latérale D inf.',      x: 334, y: 192, w: 36, h: 55 },
+  { id: 'lr_canine',   label: 'Canine D inf.',        x: 375, y: 192, w: 32, h: 58 },
+  { id: 'lr_premolar', label: 'Prémolaire D inf.',    x: 412, y: 192, w: 34, h: 45 },
 ]
 
 const ALL = [...UPPER, ...LOWER]
+
+function fangPath(x: number, y: number, w: number, h: number): string {
+  const cx = x + w / 2
+  return `M ${x},${y} L ${x + w},${y} L ${x + w},${y + h - 12} L ${cx},${y + h + 10} L ${x},${y + h - 12} Z`
+}
 
 export default function ToothSelector({
   selected,
@@ -45,36 +52,39 @@ export default function ToothSelector({
   const [hovered, setHovered] = useState<string | null>(null)
 
   const fill = (id: string) =>
-    selected.includes(id) ? '#C8A84B' : hovered === id ? '#f0ebd8' : '#e8e2cc'
+    selected.includes(id) ? '#C8A84B' : hovered === id ? '#fffcf0' : '#f2ede0'
 
   const stroke = (id: string) =>
-    selected.includes(id) ? '#E8C96B' : hovered === id ? '#C8A84B' : '#a89e88'
+    selected.includes(id) ? '#daa832' : hovered === id ? '#C8A84B' : '#c8bfa8'
 
   const hoveredTooth = hovered ? ALL.find((t) => t.id === hovered) : null
 
   return (
     <div>
-      <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] mb-4 text-center">
+      <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] mb-5 text-center">
         Clique sur les dents souhaitées — plusieurs sélections possibles
       </p>
 
       <svg
-        viewBox="0 0 560 276"
+        viewBox="0 0 560 312"
         className="w-full max-w-md mx-auto block"
         style={{ userSelect: 'none', touchAction: 'manipulation' }}
         aria-label="Sélecteur de dents"
       >
-        {/* Fond sombre */}
-        <rect width="560" height="276" fill="#070707" rx="14" />
+        {/* Fond SVG */}
+        <rect width="560" height="312" fill="#050505" rx="18" />
 
-        {/* Cavité buccale */}
-        <ellipse cx="280" cy="148" rx="224" ry="110" fill="#170305" />
+        {/* Ombre extérieure bouche */}
+        <ellipse cx="280" cy="192" rx="228" ry="135" fill="#0e0205" />
 
-        {/* Langue */}
-        <ellipse cx="280" cy="192" rx="108" ry="36" fill="#621a28" opacity="0.85" />
-        <ellipse cx="280" cy="186" rx="80" ry="22" fill="#7a2235" opacity="0.5" />
+        {/* Intérieur bouche */}
+        <ellipse cx="280" cy="196" rx="210" ry="115" fill="#1e0308" />
 
-        {/* Dents inférieures */}
+        {/* Tongue */}
+        <ellipse cx="280" cy="252" rx="108" ry="42" fill="#7a1525" opacity="0.95" />
+        <ellipse cx="272" cy="246" rx="72" ry="24" fill="#9a1e32" opacity="0.45" />
+
+        {/* ── Dents inférieures (derrière lèvre inf) ── */}
         {LOWER.map((t) => (
           <g
             key={t.id}
@@ -85,22 +95,18 @@ export default function ToothSelector({
           >
             <rect
               x={t.x} y={t.y} width={t.w} height={t.h}
-              rx={3}
+              rx={5}
               fill={fill(t.id)}
               stroke={stroke(t.id)}
               strokeWidth="1.5"
             />
             {selected.includes(t.id) && (
-              <rect
-                x={t.x + 5} y={t.y + t.h - 13}
-                width={t.w - 10} height={5}
-                rx={2} fill="#fff" opacity="0.22"
-              />
+              <rect x={t.x + 5} y={t.y + 5} width={t.w - 10} height={4} rx={2} fill="#fff" opacity="0.2" />
             )}
           </g>
         ))}
 
-        {/* Dents supérieures */}
+        {/* ── Dents supérieures (derrière lèvre sup) ── */}
         {UPPER.map((t) => (
           <g
             key={t.id}
@@ -109,47 +115,102 @@ export default function ToothSelector({
             onMouseLeave={() => setHovered(null)}
             style={{ cursor: 'pointer' }}
           >
-            <rect
-              x={t.x} y={t.y} width={t.w} height={t.h}
-              rx={3}
-              fill={fill(t.id)}
-              stroke={stroke(t.id)}
-              strokeWidth="1.5"
-            />
-            {selected.includes(t.id) && (
-              <rect
-                x={t.x + 5} y={t.y + 5}
-                width={t.w - 10} height={5}
-                rx={2} fill="#fff" opacity="0.22"
+            {t.fang ? (
+              <path
+                d={fangPath(t.x, t.y, t.w, t.h)}
+                fill={fill(t.id)}
+                stroke={stroke(t.id)}
+                strokeWidth="1.5"
+                strokeLinejoin="round"
               />
+            ) : (
+              <rect
+                x={t.x} y={t.y} width={t.w} height={t.h}
+                rx={5}
+                fill={fill(t.id)}
+                stroke={stroke(t.id)}
+                strokeWidth="1.5"
+              />
+            )}
+            {selected.includes(t.id) && (
+              <rect x={t.x + 5} y={t.y + t.h - 12} width={t.w - 10} height={4} rx={2} fill="#fff" opacity="0.2" />
             )}
           </g>
         ))}
 
-        {/* Gencive supérieure (cache les racines) */}
-        <path d="M 55,38 Q 280,14 505,38 L 505,108 Q 280,84 55,108 Z" fill="#621a28" />
-        <path d="M 55,108 Q 280,84 505,108" fill="none" stroke="#9a3048" strokeWidth="1.5" opacity="0.7" />
+        {/* ══ LÈVRE SUPÉRIEURE ══ */}
+        {/* Remplit depuis le haut jusqu'au bord d'ouverture */}
+        <path
+          d="M 72,136 C 55,115 62,48 160,40 C 208,36 250,82 280,70 C 310,58 352,36 400,40 C 498,48 505,115 488,136 C 420,128 350,118 280,120 C 210,122 140,128 72,136 Z"
+          fill="#cc1a2e"
+        />
+        {/* Bord extérieur lèvre sup — contour noir */}
+        <path
+          d="M 72,136 C 55,115 62,48 160,40 C 208,36 250,82 280,70 C 310,58 352,36 400,40 C 498,48 505,115 488,136"
+          fill="none"
+          stroke="#180006"
+          strokeWidth="4"
+          strokeLinecap="round"
+        />
+        {/* Séparation des lèvres */}
+        <path
+          d="M 72,136 C 140,128 210,122 280,120 C 350,118 420,128 488,136"
+          fill="none"
+          stroke="#880010"
+          strokeWidth="2"
+          opacity="0.5"
+        />
+        {/* Reflet cupid's bow */}
+        <path
+          d="M 175,70 C 215,60 248,78 280,68 C 312,58 345,60 385,70"
+          fill="none"
+          stroke="#ff3d55"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.28"
+        />
 
-        {/* Gencive inférieure (cache les racines) */}
-        <path d="M 55,196 Q 280,216 505,196 L 505,258 Q 280,274 55,258 Z" fill="#621a28" />
-        <path d="M 55,196 Q 280,216 505,196" fill="none" stroke="#9a3048" strokeWidth="1.5" opacity="0.7" />
+        {/* ══ LÈVRE INFÉRIEURE ══ */}
+        <path
+          d="M 72,238 C 140,244 210,250 280,250 C 350,250 420,244 488,238 C 500,262 494,296 412,305 C 362,310 320,312 280,312 C 240,312 198,310 148,305 C 66,296 60,262 72,238 Z"
+          fill="#cc1a2e"
+        />
+        {/* Contour extérieur lèvre inf */}
+        <path
+          d="M 72,238 C 60,262 66,296 148,305 C 198,310 240,312 280,312 C 320,312 362,310 412,305 C 494,296 500,262 488,238"
+          fill="none"
+          stroke="#180006"
+          strokeWidth="4"
+          strokeLinecap="round"
+        />
+        {/* Bord ouverture lèvre inf */}
+        <path
+          d="M 72,238 C 140,244 210,250 280,250 C 350,250 420,244 488,238"
+          fill="none"
+          stroke="#880010"
+          strokeWidth="2"
+          opacity="0.5"
+        />
+        {/* Reflet lèvre inf */}
+        <path
+          d="M 162,264 C 200,260 240,258 280,258 C 320,258 360,260 398,264"
+          fill="none"
+          stroke="#ff3d55"
+          strokeWidth="8"
+          strokeLinecap="round"
+          opacity="0.22"
+        />
 
-        {/* Bordure de bouche */}
-        <ellipse cx="280" cy="148" rx="224" ry="110" fill="none" stroke="#200810" strokeWidth="6" />
+        {/* Coins de bouche */}
+        <ellipse cx="72" cy="138" rx="8" ry="5" fill="#990010" />
+        <ellipse cx="488" cy="138" rx="8" ry="5" fill="#990010" />
 
-        {/* Lèvre du milieu (ligne de fermeture) */}
-        <line x1="55" y1="148" x2="505" y2="148" stroke="#0e0205" strokeWidth="2" opacity="0.6" />
+        {/* Contour silhouette global */}
+        <ellipse cx="280" cy="176" rx="220" ry="138" fill="none" stroke="#0a0005" strokeWidth="6" />
 
         {/* Label dent survolée */}
         {hoveredTooth && (
-          <text
-            x="280" y="270"
-            textAnchor="middle"
-            fill="#C8A84B"
-            fontSize="11"
-            fontFamily="system-ui, sans-serif"
-            letterSpacing="1"
-          >
+          <text x="280" y="307" textAnchor="middle" fill="#C8A84B" fontSize="11" fontFamily="system-ui, sans-serif" letterSpacing="1">
             {hoveredTooth.label}
           </text>
         )}
@@ -175,7 +236,7 @@ export default function ToothSelector({
       )}
 
       {selected.length === 0 && (
-        <p className="text-white/20 text-[10px] text-center mt-3 tracking-wider">
+        <p className="text-white/15 text-[10px] text-center mt-3 tracking-wider">
           Aucune dent sélectionnée
         </p>
       )}

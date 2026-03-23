@@ -9,7 +9,7 @@ type Status = 'idle' | 'loading' | 'success' | 'error'
 
 export default function ContactPage() {
   const [status, setStatus] = useState<Status>('idle')
-  const [form, setForm] = useState({ name: '', email: '', phone: '', description: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', address: '', description: '' })
   const [selectedTeeth, setSelectedTeeth] = useState<string[]>([])
 
   const toggleTooth = (id: string) =>
@@ -17,9 +17,8 @@ export default function ContactPage() {
       prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
     )
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setForm({ ...form, [e.target.name]: e.target.value })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,7 +31,7 @@ export default function ContactPage() {
       })
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', email: '', phone: '', description: '' })
+        setForm({ name: '', email: '', phone: '', address: '', description: '' })
         setSelectedTeeth([])
       } else {
         setStatus('error')
@@ -158,18 +157,32 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Téléphone */}
-              <div>
-                <label className="text-[#C8A84B] text-[9px] uppercase tracking-[0.4em] block mb-3">
-                  Téléphone
-                </label>
-                <input
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  placeholder="06 XX XX XX XX"
-                  className={inputClass + ' max-w-xs'}
-                />
+              {/* Téléphone + Adresse */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label className="text-[#C8A84B] text-[9px] uppercase tracking-[0.4em] block mb-3">
+                    Téléphone
+                  </label>
+                  <input
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="06 XX XX XX XX"
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="text-[#C8A84B] text-[9px] uppercase tracking-[0.4em] block mb-3">
+                    Adresse de livraison
+                  </label>
+                  <input
+                    name="address"
+                    value={form.address}
+                    onChange={handleChange}
+                    placeholder="Rue, ville, code postal"
+                    className={inputClass}
+                  />
+                </div>
               </div>
 
               {/* Séparateur */}
