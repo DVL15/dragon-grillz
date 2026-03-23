@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Gem, Shield, Zap } from 'lucide-react'
+import ScrollParticles from '@/components/ScrollParticles'
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -39,6 +40,8 @@ const features = [
 export default function HomePage() {
   return (
     <>
+      <ScrollParticles />
+
       {/* ── Hero ── */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Ambient glow */}
