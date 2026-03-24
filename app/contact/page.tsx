@@ -76,14 +76,14 @@ export default function ContactPage() {
           className="text-center mb-16"
         >
           <span className="text-[#C8A84B] text-[10px] tracking-[0.5em] uppercase font-medium mb-4 block">
-            Contact
+            Devis Gratuit
           </span>
           <h1 className="font-bebas text-5xl md:text-8xl tracking-wider mb-5">
-            NOUS CONTACTER
+            CONFIGURE TES GRILLZ
           </h1>
-          <p className="text-white/40 text-sm leading-relaxed max-w-sm mx-auto">
-            Remplis le formulaire ci-dessous pour démarrer ta commande.
-            On te répond sous 24h.
+          <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto">
+            Sélectionne les dents, décris le design souhaité pour chacune, puis laisse tes coordonnées.
+            On analyse ta demande et t&apos;envoie un devis personnalisé sous 24h — sans engagement.
           </p>
         </motion.div>
 
@@ -132,9 +132,9 @@ export default function ContactPage() {
               className="flex flex-col items-center justify-center py-16 text-center"
             >
               <CheckCircle size={44} className="text-[#C8A84B] mb-5" />
-              <h3 className="font-bebas text-3xl tracking-wider mb-2">MESSAGE ENVOYÉ</h3>
+              <h3 className="font-bebas text-3xl tracking-wider mb-2">DEVIS DEMANDÉ</h3>
               <p className="text-white/40 text-sm max-w-xs leading-relaxed">
-                Demande bien reçue. On te répond sous 24h pour lancer la fabrication.
+                Ta demande a bien été reçue. On analyse ta configuration et on t&apos;envoie un devis personnalisé sous 24h.
               </p>
               <button
                 onClick={() => setStatus('idle')}
@@ -282,7 +282,7 @@ export default function ContactPage() {
                 ) : (
                   <>
                     <Send size={13} />
-                    Envoyer ma demande
+                    Demander mon devis gratuit
                   </>
                 )}
               </button>

@@ -52,10 +52,10 @@ export default function ToothSelector({
   const [hovered, setHovered] = useState<string | null>(null)
 
   const fill = (id: string) =>
-    selected.includes(id) ? '#c8cdd6' : hovered === id ? '#fffcf0' : '#f2ede0'
+    selected.includes(id) ? '#4a5568' : hovered === id ? '#fffcf0' : '#f2ede0'
 
   const stroke = (id: string) =>
-    selected.includes(id) ? '#8a9aaa' : hovered === id ? '#b0bcc8' : '#c8bfa8'
+    selected.includes(id) ? '#6b7d94' : hovered === id ? '#b0bcc8' : '#c8bfa8'
 
   const hoveredTooth = hovered ? ALL.find((t) => t.id === hovered) : null
 
