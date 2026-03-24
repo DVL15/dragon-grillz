@@ -2,9 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { ArrowRight, Gem, Shield, Zap } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, Gem, Shield, Zap, X, Instagram, FileText } from 'lucide-react'
 import ScrollParticles from '@/components/ScrollParticles'
+import { useState } from 'react'
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -37,7 +38,32 @@ const features = [
   },
 ]
 
+const steps = [
+  {
+    n: '01',
+    title: 'Prends contact',
+    desc: 'Remplis le formulaire sur le site ou envoie-nous un message sur Instagram. Dis-nous ce que tu veux.',
+  },
+  {
+    n: '02',
+    title: 'Kit d\'empreinte',
+    desc: 'On t\'envoie un kit simple à utiliser chez toi pour prendre l\'empreinte de tes dents.',
+  },
+  {
+    n: '03',
+    title: 'Fabrication artisanale',
+    desc: 'Nos artisans façonnent ton Grillz à la main, en France. Délai : 2 à 3 semaines.',
+  },
+  {
+    n: '04',
+    title: 'Livraison',
+    desc: 'Ta pièce unique est livrée directement chez toi en France ou en Europe.',
+  },
+]
+
 export default function HomePage() {
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <>
       <ScrollParticles />
@@ -95,17 +121,17 @@ export default function HomePage() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Link
-              href="/realisations"
+              href="/contact"
               className="inline-flex items-center justify-center gap-2 bg-[#C8A84B] text-black font-semibold px-9 py-3.5 hover:bg-[#E8C96B] transition-colors text-xs tracking-[0.2em] uppercase"
             >
-              Nos créations <ArrowRight size={14} />
+              Commander <ArrowRight size={14} />
             </Link>
-            <Link
-              href="/commander"
+            <button
+              onClick={() => setShowModal(true)}
               className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/70 font-semibold px-9 py-3.5 hover:border-[#C8A84B]/60 hover:text-[#C8A84B] transition-colors text-xs tracking-[0.2em] uppercase"
             >
-              Commander
-            </Link>
+              En savoir plus
+            </button>
           </motion.div>
         </div>
 
@@ -256,18 +282,116 @@ export default function HomePage() {
             <span className="text-[#C8A84B]">VOTRE STYLE ?</span>
           </h2>
           <p className="text-white/40 mb-10">
-            Contactez-nous sur Instagram pour démarrer votre commande sur-mesure.
+            Démarre ta commande sur-mesure via le formulaire ou sur Instagram.
           </p>
-          <a
-            href="https://www.instagram.com/dragon_grillz/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#C8A84B] text-black font-semibold px-10 py-4 hover:bg-[#E8C96B] transition-colors text-xs tracking-[0.2em] uppercase"
-          >
-            Nous contacter sur Instagram <ArrowRight size={14} />
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 bg-[#C8A84B] text-black font-semibold px-10 py-4 hover:bg-[#E8C96B] transition-colors text-xs tracking-[0.2em] uppercase"
+            >
+              Formulaire de commande <ArrowRight size={14} />
+            </Link>
+            <a
+              href="https://www.instagram.com/dragon_grillz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/70 px-10 py-4 hover:border-[#C8A84B]/60 hover:text-[#C8A84B] transition-colors text-xs tracking-[0.2em] uppercase"
+            >
+              <Instagram size={14} /> Instagram
+            </a>
+          </div>
         </motion.div>
       </section>
+
+      {/* ── Modale En savoir plus ── */}
+      <AnimatePresence>
+        {showModal && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowModal(false)}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            />
+
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none"
+            >
+              <div className="relative bg-[#0a0a0a] border border-white/8 w-full max-w-lg pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
+                {/* Gold top line */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C8A84B]/60 to-transparent" />
+
+                {/* Header */}
+                <div className="flex items-center justify-between px-8 pt-8 pb-6 border-b border-white/5">
+                  <div>
+                    <span className="text-[#C8A84B] text-[9px] tracking-[0.5em] uppercase block mb-1">Démarche</span>
+                    <h2 className="font-bebas text-3xl tracking-wider">COMMENT ÇA MARCHE ?</h2>
+                  </div>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="text-white/30 hover:text-white/80 transition-colors p-1"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                {/* Steps */}
+                <div className="px-8 py-6 space-y-6">
+                  {steps.map((step, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.08 }}
+                      className="flex gap-5"
+                    >
+                      <div className="w-10 h-10 shrink-0 border border-[#C8A84B]/25 flex items-center justify-center">
+                        <span className="font-bebas text-sm text-[#C8A84B] tracking-wider">{step.n}</span>
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold text-sm mb-1">{step.title}</h3>
+                        <p className="text-white/40 text-xs leading-relaxed">{step.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Contact options */}
+                <div className="px-8 pb-8 pt-2 border-t border-white/5 space-y-3">
+                  <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] mb-4">Pour démarrer</p>
+                  <Link
+                    href="/contact"
+                    onClick={() => setShowModal(false)}
+                    className="flex items-center gap-3 w-full bg-[#C8A84B] text-black font-semibold px-6 py-3.5 hover:bg-[#E8C96B] transition-colors text-xs tracking-[0.2em] uppercase"
+                  >
+                    <FileText size={14} />
+                    Remplir le formulaire du site
+                  </Link>
+                  <a
+                    href="https://www.instagram.com/dragon_grillz/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 w-full border border-white/10 text-white/60 px-6 py-3.5 hover:border-[#C8A84B]/40 hover:text-[#C8A84B] transition-colors text-xs tracking-[0.2em] uppercase"
+                  >
+                    <Instagram size={14} />
+                    Nous contacter sur Instagram
+                  </a>
+                </div>
+
+                {/* Gold bottom line */}
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C8A84B]/20 to-transparent" />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   )
 }
