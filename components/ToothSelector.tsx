@@ -52,10 +52,10 @@ export default function ToothSelector({
   const [hovered, setHovered] = useState<string | null>(null)
 
   const fill = (id: string) =>
-    selected.includes(id) ? '#C8A84B' : hovered === id ? '#fffcf0' : '#f2ede0'
+    selected.includes(id) ? '#c8cdd6' : hovered === id ? '#fffcf0' : '#f2ede0'
 
   const stroke = (id: string) =>
-    selected.includes(id) ? '#daa832' : hovered === id ? '#C8A84B' : '#c8bfa8'
+    selected.includes(id) ? '#8a9aaa' : hovered === id ? '#b0bcc8' : '#c8bfa8'
 
   const hoveredTooth = hovered ? ALL.find((t) => t.id === hovered) : null
 
@@ -210,7 +210,7 @@ export default function ToothSelector({
 
         {/* Label dent survolée */}
         {hoveredTooth && (
-          <text x="280" y="307" textAnchor="middle" fill="#C8A84B" fontSize="11" fontFamily="system-ui, sans-serif" letterSpacing="1">
+          <text x="280" y="307" textAnchor="middle" fill="#a8b4c0" fontSize="11" fontFamily="system-ui, sans-serif" letterSpacing="1">
             {hoveredTooth.label}
           </text>
         )}
@@ -226,7 +226,7 @@ export default function ToothSelector({
                 key={id}
                 type="button"
                 onClick={() => onToggle(id)}
-                className="text-[10px] tracking-wider uppercase bg-[#C8A84B]/10 border border-[#C8A84B]/30 text-[#C8A84B] px-3 py-1 hover:bg-[#C8A84B]/20 transition-colors"
+                className="text-[10px] tracking-wider uppercase bg-white/5 border border-white/20 text-white/60 px-3 py-1 hover:bg-white/10 transition-colors"
               >
                 {tooth.label} ×
               </button>
