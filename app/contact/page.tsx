@@ -7,15 +7,34 @@ import ToothSelector from '@/components/ToothSelector'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
+const TOOTH_LABELS: Record<string, string> = {
+  ul_premolar: 'Prémolaire G sup.', ul_canine: 'Canine G sup.',
+  ul_lateral: 'Latérale G sup.',   ul_central: 'Centrale G sup.',
+  ur_central: 'Centrale D sup.',   ur_lateral: 'Latérale D sup.',
+  ur_canine: 'Canine D sup.',      ur_premolar: 'Prémolaire D sup.',
+  ll_premolar: 'Prémolaire G inf.',ll_canine: 'Canine G inf.',
+  ll_lateral: 'Latérale G inf.',   ll_central: 'Centrale G inf.',
+  lr_central: 'Centrale D inf.',   lr_lateral: 'Latérale D inf.',
+  lr_canine: 'Canine D inf.',      lr_premolar: 'Prémolaire D inf.',
+}
+
 export default function ContactPage() {
   const [status, setStatus] = useState<Status>('idle')
   const [form, setForm] = useState({ name: '', email: '', phone: '', address: '', description: '' })
   const [selectedTeeth, setSelectedTeeth] = useState<string[]>([])
+  const [toothDesigns, setToothDesigns] = useState<Record<string, string>>({})
 
-  const toggleTooth = (id: string) =>
+  const toggleTooth = (id: string) => {
     setSelectedTeeth((prev) =>
       prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
     )
+    if (toothDesigns[id]) {
+      setToothDesigns((prev) => { const n = { ...prev }; delete n[id]; return n })
+    }
+  }
+
+  const handleDesignChange = (id: string, value: string) =>
+    setToothDesigns((prev) => ({ ...prev, [id]: value }))
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -27,12 +46,13 @@ export default function ContactPage() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, teeth: selectedTeeth }),
+        body: JSON.stringify({ ...form, teeth: selectedTeeth, toothDesigns }),
       })
       if (res.ok) {
         setStatus('success')
         setForm({ name: '', email: '', phone: '', address: '', description: '' })
         setSelectedTeeth([])
+        setToothDesigns({})
       } else {
         setStatus('error')
       }
@@ -195,6 +215,33 @@ export default function ContactPage() {
                 </label>
                 <ToothSelector selected={selectedTeeth} onToggle={toggleTooth} />
               </div>
+
+              {/* Design par dent */}
+              {selectedTeeth.length > 0 && (
+                <div>
+                  <label className="text-[#C8A84B] text-[9px] uppercase tracking-[0.4em] block mb-5">
+                    Design souhaité par dent
+                  </label>
+                  <p className="text-white/25 text-[10px] leading-relaxed mb-5 tracking-wide">
+                    Pour chaque dent sélectionnée, décris librement ce que tu veux : une lettre, un motif, une gravure...
+                  </p>
+                  <div className="space-y-4">
+                    {selectedTeeth.map((id) => (
+                      <div key={id} className="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <span className="text-white/40 text-[10px] tracking-wider uppercase shrink-0 w-36">
+                          {TOOTH_LABELS[id] || id}
+                        </span>
+                        <input
+                          value={toothDesigns[id] || ''}
+                          onChange={(e) => handleDesignChange(id, e.target.value)}
+                          placeholder="Ex : lettre A, motif écailles, diamanté..."
+                          className={inputClass + ' text-[12px]'}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Séparateur */}
               <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />

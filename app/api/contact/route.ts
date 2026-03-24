@@ -6,7 +6,18 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, phone, address, description, teeth } = body
+    const { name, email, phone, address, description, teeth, toothDesigns } = body
+
+    const TOOTH_LABELS: Record<string, string> = {
+      ul_premolar: 'Prémolaire G sup.', ul_canine: 'Canine G sup.',
+      ul_lateral: 'Latérale G sup.',   ul_central: 'Centrale G sup.',
+      ur_central: 'Centrale D sup.',   ur_lateral: 'Latérale D sup.',
+      ur_canine: 'Canine D sup.',      ur_premolar: 'Prémolaire D sup.',
+      ll_premolar: 'Prémolaire G inf.',ll_canine: 'Canine G inf.',
+      ll_lateral: 'Latérale G inf.',   ll_central: 'Centrale G inf.',
+      lr_central: 'Centrale D inf.',   lr_lateral: 'Latérale D inf.',
+      lr_canine: 'Canine D inf.',      lr_premolar: 'Prémolaire D inf.',
+    }
 
     if (!name || !email || !description) {
       return NextResponse.json({ error: 'Champs manquants' }, { status: 400 })
@@ -38,10 +49,21 @@ export async function POST(request: Request) {
               <td style="padding: 12px 0; color: #fff;">${address || 'Non renseignée'}</td>
             </tr>
             <tr style="border-bottom: 1px solid #222;">
-              <td style="padding: 12px 0; color: #888; vertical-align: top;">Dents choisies</td>
-              <td style="padding: 12px 0; color: #fff; line-height: 1.8;">
+              <td style="padding: 12px 0; color: #888; vertical-align: top;">Dents & designs</td>
+              <td style="padding: 12px 0; color: #fff;">
                 ${Array.isArray(teeth) && teeth.length > 0
-                  ? teeth.map((t: string) => `<span style="display:inline-block; background:#1a1500; border:1px solid #C8A84B55; color:#C8A84B; font-size:11px; padding:2px 8px; margin:2px; border-radius:2px;">${t}</span>`).join('')
+                  ? `<table style="width:100%; border-collapse:collapse;">
+                      ${teeth.map((t: string) => `
+                        <tr style="border-bottom:1px solid #1a1a1a;">
+                          <td style="padding:7px 0; color:#C8A84B; font-size:11px; width:170px; text-transform:uppercase; letter-spacing:1px;">
+                            ${TOOTH_LABELS[t] || t}
+                          </td>
+                          <td style="padding:7px 0; color:#fff; font-size:13px;">
+                            ${(toothDesigns && toothDesigns[t]) ? toothDesigns[t] : '<span style="color:#444">—</span>'}
+                          </td>
+                        </tr>
+                      `).join('')}
+                    </table>`
                   : '<span style="color:#555">Non renseigné</span>'
                 }
               </td>
