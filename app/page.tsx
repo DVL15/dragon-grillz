@@ -201,7 +201,21 @@ export default function HomePage() {
             <h2 className="font-bebas text-4xl md:text-6xl tracking-wider">NOS CRÉATIONS</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-10">
+          {/* Mobile carousel */}
+          <div className="md:hidden mb-10">
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 -mx-6 px-6 pb-4 [&::-webkit-scrollbar]:hidden">
+              {galleryPreviews.map((img, i) => (
+                <div key={i} className="snap-center shrink-0 w-[80vw] relative aspect-square overflow-hidden">
+                  <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+              ))}
+            </div>
+            <p className="text-white/20 text-[10px] tracking-widest text-center mt-3 uppercase">← Swipe →</p>
+          </div>
+
+          {/* Desktop grid */}
+          <div className="hidden md:grid grid-cols-3 gap-3 mb-10">
             {galleryPreviews.map((img, i) => (
               <motion.div
                 key={i}
