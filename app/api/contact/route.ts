@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       await resend.emails.send({
         from: 'Dragon Grillz <onboarding@resend.dev>',
         to: email,
-        reply_to: 'contact.dvldesign@gmail.com',
+        replyTo: 'contact.dvldesign@gmail.com',
         subject: `Bonjour ${name}, ta demande Dragon Grillz est bien reçue`,
         text: `Bonjour ${name},\n\nOn a bien reçu ta demande de devis pour tes grillz sur-mesure.\nOn te répond sous 24h avec un devis personnalisé.\n\nSi tu as une question : @dragon_grillz sur Instagram ou contact.dvldesign@gmail.com\n\nDragon Grillz`,
         html: `
