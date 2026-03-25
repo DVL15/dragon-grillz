@@ -87,7 +87,7 @@ export default function HomePage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className="w-52 h-52 mx-auto mb-10 relative"
+            className="w-[420px] h-[420px] mx-auto mb-10 relative"
           >
             <Image
               src="/images/logo.png"
