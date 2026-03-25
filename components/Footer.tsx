@@ -58,7 +58,12 @@ export default function Footer() {
           <p className="text-white/15 text-xs">
             © {new Date().getFullYear()} Dragon Grillz. Tous droits réservés.
           </p>
-          <p className="text-white/15 text-xs tracking-wider">🇫🇷 Made in France</p>
+          <div className="flex items-center gap-6">
+            <Link href="/mentions-legales" className="text-white/15 text-xs hover:text-white/40 transition-colors">
+              Mentions légales
+            </Link>
+            <p className="text-white/15 text-xs tracking-wider">🇫🇷 Made in France</p>
+          </div>
         </div>
       </div>
     </footer>
