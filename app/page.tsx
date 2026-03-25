@@ -87,7 +87,7 @@ export default function HomePage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className="w-[420px] h-[420px] mx-auto mb-10 relative"
+            className="w-44 h-44 sm:w-64 sm:h-64 md:w-[380px] md:h-[380px] mx-auto mb-6 md:mb-10 relative"
           >
             <Image
               src="/images/logo.png"
@@ -147,7 +147,7 @@ export default function HomePage() {
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ opacity: 1, scaleY: 1 }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 origin-top"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 origin-top z-0 hidden md:block"
         >
           <div className="w-px h-14 bg-gradient-to-b from-[#C8A84B]/50 to-transparent" />
         </motion.div>
