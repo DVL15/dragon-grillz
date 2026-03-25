@@ -63,7 +63,7 @@ const steps = [
 
 export default function HomePage() {
   const [showModal, setShowModal] = useState(false)
-  const heroRef = useRef(null)
+  const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const titleOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0])
   const titleY = useTransform(scrollYProgress, [0, 0.45], [0, -80])
