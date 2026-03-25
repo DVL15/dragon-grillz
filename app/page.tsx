@@ -2,10 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, Gem, Shield, Zap, X, Instagram, FileText } from 'lucide-react'
 import ScrollParticles from '@/components/ScrollParticles'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -63,13 +63,18 @@ const steps = [
 
 export default function HomePage() {
   const [showModal, setShowModal] = useState(false)
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0])
+  const titleY = useTransform(scrollYProgress, [0, 0.45], [0, -80])
+  const titleScale = useTransform(scrollYProgress, [0, 0.45], [1, 0.88])
 
   return (
     <>
       <ScrollParticles />
 
       {/* ── Hero ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Ambient glow */}
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#C8A84B]/6 rounded-full blur-[160px]" />
@@ -94,16 +99,18 @@ export default function HomePage() {
           </motion.div>
 
           {/* Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="font-bebas text-[4.5rem] md:text-[9rem] tracking-[0.08em] leading-none mb-5"
-          >
-            DRAGON
-            <br />
-            <span className="text-[#C8A84B]">GRILLZ</span>
-          </motion.h1>
+          <motion.div style={{ opacity: titleOpacity, y: titleY, scale: titleScale }}>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
+              className="font-bebas text-[4.5rem] md:text-[9rem] tracking-[0.08em] leading-none mb-5"
+            >
+              DRAGON
+              <br />
+              <span className="text-[#C8A84B]">GRILLZ</span>
+            </motion.h1>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
