@@ -34,8 +34,37 @@ export default function RealisationsPage() {
           </p>
         </motion.div>
 
-        {/* Gallery */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-20">
+        {/* Gallery — Mobile carousel */}
+        <div className="sm:hidden mb-20">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 -mx-6 px-6 pb-4 [&::-webkit-scrollbar]:hidden">
+            {works.map((work, i) => (
+              <div
+                key={i}
+                className="snap-center shrink-0 w-[80vw] relative overflow-hidden group"
+              >
+                <div className="aspect-square relative">
+                  <Image
+                    src={work.src}
+                    alt={work.alt}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <span className="text-white font-medium text-sm tracking-wider">{work.label}</span>
+                    <div className="mt-1 w-8 h-px bg-[#C8A84B]" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-white/20 text-[10px] tracking-widest text-center mt-3 uppercase">
+            ← Swipe →
+          </p>
+        </div>
+
+        {/* Gallery — Desktop grid */}
+        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-3 mb-20">
           {works.map((work, i) => (
             <motion.div
               key={i}
@@ -54,7 +83,6 @@ export default function RealisationsPage() {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
                   <span className="text-white font-medium text-sm tracking-wider">{work.label}</span>
