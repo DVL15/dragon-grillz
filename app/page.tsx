@@ -257,22 +257,27 @@ export default function HomePage() {
             <h2 className="font-bebas text-4xl md:text-6xl tracking-wider">COMMENT ÇA MARCHE ?</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
             {[
               {
                 n: '01',
-                title: 'Kit d\'empreinte',
-                desc: 'Nous vous envoyons un kit simple à utiliser chez vous pour prendre l\'empreinte de vos dents.',
+                title: 'Remplis le formulaire',
+                desc: 'Décris ton projet en détail : les dents souhaitées, le design, les lettres ou motifs. Plus tu es précis, plus on peut te faire une pièce parfaite.',
               },
               {
                 n: '02',
-                title: 'Fabrication artisanale',
-                desc: 'Nos artisans façonnent votre Grillz à la main, en France, selon vos préférences.',
+                title: 'Devis personnalisé',
+                desc: 'On analyse ta demande et on te répond sous 24h avec un devis sur-mesure. Sans engagement.',
               },
               {
                 n: '03',
-                title: 'Livraison',
-                desc: 'Votre pièce unique est livrée chez vous en France ou en Europe sous 2 à 3 semaines.',
+                title: 'Kit d\'empreinte',
+                desc: 'Après validation, on t\'envoie un kit simple pour prendre l\'empreinte de tes dents depuis chez toi.',
+              },
+              {
+                n: '04',
+                title: 'Fabrication & livraison',
+                desc: 'Nos artisans façonnent ton Grillz à la main en France. Tu le reçois sous 2 à 3 semaines.',
               },
             ].map((step, i) => (
               <motion.div
